@@ -7,6 +7,7 @@
 //
 
 #import "PhotosViewController.h"
+#import "APIClient.h"
 
 @interface PhotosViewController ()
 
@@ -16,7 +17,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    APIClient *apiClient = [[APIClient alloc] init];
+    [apiClient fetchData];
 }
 
 @end
