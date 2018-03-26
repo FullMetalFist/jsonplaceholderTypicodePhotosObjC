@@ -14,6 +14,7 @@
 		7C24D85B2069382B00A70DEA /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C24D85A2069382B00A70DEA /* APIClient.m */; };
 		7C24D85E2069387400A70DEA /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C24D85D2069387400A70DEA /* PhotosViewController.m */; };
 		7C24D861206938EF00A70DEA /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C24D860206938EF00A70DEA /* Constants.m */; };
+		7C24D86520693B5600A70DEA /* PhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C24D86420693B5600A70DEA /* PhotoModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,8 @@
 		7C24D85D2069387400A70DEA /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotosViewController.m; path = PhotosLargeAndSmall/Controller/PhotosViewController.m; sourceTree = SOURCE_ROOT; };
 		7C24D85F206938EF00A70DEA /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		7C24D860206938EF00A70DEA /* Constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		7C24D86320693B5600A70DEA /* PhotoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoModel.h; sourceTree = "<group>"; };
+		7C24D86420693B5600A70DEA /* PhotoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +71,7 @@
 				7C24D85A2069382B00A70DEA /* APIClient.m */,
 				7C24D85F206938EF00A70DEA /* Constants.h */,
 				7C24D860206938EF00A70DEA /* Constants.m */,
+				7C24D86220693B2F00A70DEA /* Model */,
 				7C24D858206937FD00A70DEA /* Controller */,
 				7C24D8472069369200A70DEA /* Assets.xcassets */,
 				7C24D8492069369200A70DEA /* LaunchScreen.storyboard */,
@@ -85,6 +89,15 @@
 			);
 			name = Controller;
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		7C24D86220693B2F00A70DEA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7C24D86320693B5600A70DEA /* PhotoModel.h */,
+				7C24D86420693B5600A70DEA /* PhotoModel.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,6 +172,7 @@
 			files = (
 				7C24D861206938EF00A70DEA /* Constants.m in Sources */,
 				7C24D84E2069369200A70DEA /* main.m in Sources */,
+				7C24D86520693B5600A70DEA /* PhotoModel.m in Sources */,
 				7C24D8402069369200A70DEA /* AppDelegate.m in Sources */,
 				7C24D85E2069387400A70DEA /* PhotosViewController.m in Sources */,
 				7C24D85B2069382B00A70DEA /* APIClient.m in Sources */,
