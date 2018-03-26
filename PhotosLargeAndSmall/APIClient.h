@@ -10,4 +10,6 @@
 
 @interface APIClient : NSObject
 
+- (void)fetchData;
+
 @end
