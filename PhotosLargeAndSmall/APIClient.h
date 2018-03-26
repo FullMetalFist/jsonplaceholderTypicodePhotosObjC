@@ -10,6 +10,8 @@
 
 @interface APIClient : NSObject
 
+@property (nonatomic, strong) NSArray *photoModelArray;
+
 - (void)fetchData;
 
 @end

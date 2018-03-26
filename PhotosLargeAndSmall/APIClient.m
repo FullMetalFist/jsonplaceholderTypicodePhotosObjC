@@ -8,6 +8,7 @@
 
 #import "APIClient.h"
 #import "Constants.h"
+#import "PhotoModel.h"
 
 @interface APIClient () <NSURLSessionDelegate>
 
@@ -43,16 +44,16 @@
         NSArray *parsedJSONArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&anyError];
         
         
-//        NSMutableArray *populatePhotoModelArray = [NSMutableArray array];
+        NSMutableArray *populatePhotoModelArray = [NSMutableArray array];
         for (NSDictionary *jsonDict in parsedJSONArray) {
-//            PhotoModel *pModel = [[PhotoModel alloc] initWithDictionary:jsonDict];
-//
-//            [populatePhotoModelArray addObject:pModel];
+            PhotoModel *pModel = [[PhotoModel alloc] initWithDictionary:jsonDict];
+
+            [populatePhotoModelArray addObject:pModel];
             NSLog(@"%@", jsonDict);
         }
         
-//        self.photoModelArray = [NSArray arrayWithArray:populatePhotoModelArray];
-//        NSLog(@"%@", self.photoModelArray);
+        self.photoModelArray = [NSArray arrayWithArray:populatePhotoModelArray];
+        NSLog(@"%@", self.photoModelArray);
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             // stop activity indicator
