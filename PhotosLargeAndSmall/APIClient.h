@@ -6,12 +6,12 @@
 //  Copyright © 2018 Michael Vilabrera. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "PhotoModel.h"
 
 @interface APIClient : NSObject
 
-@property (nonatomic, strong) NSArray *photoModelArray;
-
-- (void)fetchData;
+- (void)fetchDataWithCompletionBlock:(void (^)(BOOL succeeded, NSArray *array))completionBlock;
+- (void)fetchImageForPhotoModel:(PhotoModel *)photoModel completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock;
 
 @end

@@ -8,7 +8,7 @@
 
 #import "APIClient.h"
 #import "Constants.h"
-#import "PhotoModel.h"
+
 
 @interface APIClient () <NSURLSessionDelegate>
 
@@ -16,7 +16,7 @@
 
 @implementation APIClient
 
-- (void)fetchData
+- (void)fetchDataWithCompletionBlock:(void (^)(BOOL succeeded, NSArray *array))completionBlock
 {
     NSURL *jsonEndpoint = [NSURL URLWithString:JSON_ENDPOINT];
     
@@ -28,6 +28,7 @@
         {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSLog(@"Error connecting: %@", [error localizedDescription]);
+                completionBlock(NO, nil);
             }];
         }
         
@@ -38,6 +39,7 @@
         {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSLog(@"Error creating JSON dictionary: %@", [anyError localizedDescription]);
+                completionBlock(NO, nil);
             }];
         }
         
@@ -49,20 +51,29 @@
             PhotoModel *pModel = [[PhotoModel alloc] initWithDictionary:jsonDict];
 
             [populatePhotoModelArray addObject:pModel];
-            NSLog(@"%@", jsonDict);
         }
         
-        self.photoModelArray = [NSArray arrayWithArray:populatePhotoModelArray];
-        NSLog(@"%@", self.photoModelArray);
-        
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            // stop activity indicator
-            // hide activity indicator
-            
-            NSLog(@"Reload");
-        }];
+        completionBlock(YES, populatePhotoModelArray);
     }];
     
+    [task resume];
+}
+
+- (void)fetchImageForPhotoModel:(PhotoModel *)photoModel completionBlock:(void (^)(BOOL, UIImage *))completionBlock
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:photoModel.thumbnailURL]];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (!error)
+        {
+            UIImage *image = [[UIImage alloc] initWithData:data];
+            completionBlock(YES, image);
+        }
+        else
+        {
+            completionBlock(NO, nil);
+        }
+    }];
     [task resume];
 }
 
