@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PhotoCollectionViewCell : UIColllectionViewCell
+@interface PhotoCollectionViewCell : UICollectionViewCell
+
+@property (nonatomic, strong) UIImage *image;
 
 @end
