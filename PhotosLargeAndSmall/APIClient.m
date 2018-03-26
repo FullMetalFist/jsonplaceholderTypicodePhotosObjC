@@ -9,8 +9,11 @@
 #import "APIClient.h"
 #import "Constants.h"
 
+#define kImageSize 50
 
 @interface APIClient () <NSURLSessionDelegate>
+
+@property (nonatomic, strong) NSURLSessionDataTask *sessionDataTask;
 
 @end
 
@@ -75,6 +78,50 @@
         }
     }];
     [task resume];
+}
+
+- (void)startDownload
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.photoModel.thumbnailURL]];
+    
+    _sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        if (error != nil)
+        {
+            NSLog(@"%@", [error localizedDescription]);
+        }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            
+            UIImage *image = [[UIImage alloc] initWithData:data];
+            
+            if (image.size.width != kImageSize || image.size.height != kImageSize)
+            {
+                CGSize itemSize = CGSizeMake(kImageSize, kImageSize);
+                UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
+                CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+                [image drawInRect:imageRect];
+                []
+                self.photoModel.smallImage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+            }
+            else
+            {
+                self.photoModel.smallImage = image;
+            }
+            
+            if (self.completionHandler != nil)
+            {
+                self.completionHandler();
+            }
+        }];
+    }];
+    [self.sessionDataTask resume];
+}
+
+- (void)cancelDownload
+{
+    [self.sessionDataTask cancel];
+    _sessionDataTask = nil;
 }
 
 @end
