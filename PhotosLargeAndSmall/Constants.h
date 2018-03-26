@@ -10,4 +10,7 @@
 
 @interface Constants : NSObject
 
+extern NSString *const JSON_ENDPOINT;
+extern NSString *const CELL_IDENTIFY;
+
 @end

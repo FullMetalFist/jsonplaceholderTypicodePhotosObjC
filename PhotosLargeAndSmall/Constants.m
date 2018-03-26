@@ -10,4 +10,7 @@
 
 @implementation Constants
 
+NSString *const JSON_ENDPOINT = @"https://jsonplaceholder.typicode.com/photos";
+NSString *const CELL_IDENTIFY = @"PhotoCell";
+
 @end
