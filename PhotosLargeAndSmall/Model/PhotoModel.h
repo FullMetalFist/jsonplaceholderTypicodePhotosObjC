@@ -10,4 +10,12 @@
 
 @interface PhotoModel : NSObject
 
+@property (strong, nonatomic) NSString *albumID;
+@property (strong, nonatomic) NSString *ID;
+@property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSString *url;
+@property (strong, nonatomic) NSString *thumbnailURL;
+
+- (instancetype)initWithDictionary:(NSDictionary *) dictionary;
+
 @end
