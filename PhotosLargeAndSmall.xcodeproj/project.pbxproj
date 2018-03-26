@@ -15,6 +15,7 @@
 		7C24D85E2069387400A70DEA /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C24D85D2069387400A70DEA /* PhotosViewController.m */; };
 		7C24D861206938EF00A70DEA /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C24D860206938EF00A70DEA /* Constants.m */; };
 		7C24D86520693B5600A70DEA /* PhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C24D86420693B5600A70DEA /* PhotoModel.m */; };
+		7C24D8692069403E00A70DEA /* PhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C24D8682069403E00A70DEA /* PhotoCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,8 @@
 		7C24D860206938EF00A70DEA /* Constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		7C24D86320693B5600A70DEA /* PhotoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoModel.h; sourceTree = "<group>"; };
 		7C24D86420693B5600A70DEA /* PhotoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoModel.m; sourceTree = "<group>"; };
+		7C24D8672069403E00A70DEA /* PhotoCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoCollectionViewCell.h; sourceTree = "<group>"; };
+		7C24D8682069403E00A70DEA /* PhotoCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoCollectionViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +74,7 @@
 				7C24D85A2069382B00A70DEA /* APIClient.m */,
 				7C24D85F206938EF00A70DEA /* Constants.h */,
 				7C24D860206938EF00A70DEA /* Constants.m */,
+				7C24D86620693FD000A70DEA /* View */,
 				7C24D86220693B2F00A70DEA /* Model */,
 				7C24D858206937FD00A70DEA /* Controller */,
 				7C24D8472069369200A70DEA /* Assets.xcassets */,
@@ -98,6 +102,15 @@
 				7C24D86420693B5600A70DEA /* PhotoModel.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		7C24D86620693FD000A70DEA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7C24D8672069403E00A70DEA /* PhotoCollectionViewCell.h */,
+				7C24D8682069403E00A70DEA /* PhotoCollectionViewCell.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,6 +183,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C24D8692069403E00A70DEA /* PhotoCollectionViewCell.m in Sources */,
 				7C24D861206938EF00A70DEA /* Constants.m in Sources */,
 				7C24D84E2069369200A70DEA /* main.m in Sources */,
 				7C24D86520693B5600A70DEA /* PhotoModel.m in Sources */,
