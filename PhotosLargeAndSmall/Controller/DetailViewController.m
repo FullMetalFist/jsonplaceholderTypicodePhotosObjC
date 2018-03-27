@@ -19,19 +19,29 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (instancetype)init
+{
+    self = [super init];
+    
+    [self createViews];
+    return self;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)createViews
+{
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.imageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    self.activityView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    NSDictionary *viewsDict = NSDictionaryOfVariableBindings(_imageView, _activityView);
+    self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.activityView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.view addSubview:self.imageView];
+    [self.view addSubview:self.activityView];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_imageView]|" options:0 metrics:nil views:viewsDict]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_imageView]|" options:0 metrics:nil views:viewsDict]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_activityView]|" options:0 metrics:nil views:viewsDict]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_activityView]|" options:0 metrics:nil views:viewsDict]];
 }
-*/
 
 @end

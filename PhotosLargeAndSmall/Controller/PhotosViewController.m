@@ -10,6 +10,7 @@
 #import "APIClient.h"
 #import "Constants.h"
 #import "PhotoCollectionViewCell.h"
+#import "DetailViewController.h"
 
 #define BlockWeakObject(o) __typeof(o) __weak
 #define BlockWeakSelf BlockWeakObject(self)
@@ -86,7 +87,6 @@
 
 - (void)startIconDownload:(PhotoModel *)photoModel forIndexPath:(NSIndexPath *)indexPath
 {
-//    APIClient *apiClient = (self.imageDownloadInProgress)[indexPath];
     if (_apiClient == nil)
     {
         _apiClient = [[APIClient alloc] init];
@@ -97,7 +97,6 @@
             PhotoCollectionViewCell *cell = (PhotoCollectionViewCell *)[weakSelf.collectionView cellForItemAtIndexPath:indexPath];
             cell.image = weakSelf.sampleImage;
             [cell setNeedsLayout];
-//            cell.image = [weakSelf.apiClient.cache objectForKey:photoModel.ID];
             [weakSelf.apiClient.cache removeObjectForKey:indexPath];
         }];
         (self.imageDownloadInProgress)[indexPath] = _apiClient;
@@ -148,7 +147,7 @@
         }
         if (shouldDownload)
         {
-            [_apiClient fetchImageForPhotoModel:pModel completionBlock:^(BOOL succeeded, UIImage *image) {
+            [_apiClient fetchSmallImageForPhotoModel:pModel completionBlock:^(BOOL succeeded, UIImage *image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (succeeded)
                     {
@@ -178,7 +177,27 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    DetailViewController *dVC = [[DetailViewController alloc] init];
+    PhotoModel *pModel = (PhotoModel *)_photosArray[indexPath.row];
+    [dVC.activityView startAnimating];
+    dVC.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [_apiClient fetchLargeImageForPhotoModel:pModel completionBlock:^(BOOL succeeded, UIImage *image) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (succeeded)
+                {
+                    [dVC.imageView setImage:image];
+                    [dVC.activityView stopAnimating];
+                    dVC.activityView.hidden = YES;
+                    [self.navigationController pushViewController:dVC animated:YES];
+                }
+                else
+                {
+                    NSLog(@"image load error");
+                }
+            });
+        }];
+    });
 }
 
 #pragma MARK: - UIScrollViewDelegate methods
