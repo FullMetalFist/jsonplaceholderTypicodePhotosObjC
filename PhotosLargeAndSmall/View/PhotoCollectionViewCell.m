@@ -10,7 +10,7 @@
 
 @interface PhotoCollectionViewCell ()
 
-@property (nonatomic, strong) UIImageView *imageView;
+
 
 @end
 
@@ -28,16 +28,18 @@
 {
     self = [super initWithFrame:frame];
     
+    self.imageView = [[UIImageView alloc] initWithFrame:self.contentView.bounds];
+    
     [self createViews];
     return self;
 }
 
 - (void)createViews
 {
-    self.imageView = [[UIImageView alloc] init];
     NSDictionary *viewsDict = NSDictionaryOfVariableBindings(_imageView);
     
     self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.activityView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.imageView];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_imageView]|" options:0 metrics:nil views:viewsDict]];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_imageView]|" options:0 metrics:nil views:viewsDict]];
