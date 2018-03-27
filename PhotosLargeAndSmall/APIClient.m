@@ -100,13 +100,13 @@
                 UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
                 CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
                 [image drawInRect:imageRect];
-                []
-                self.photoModel.smallImage = UIGraphicsGetImageFromCurrentImageContext();
+//                []
+                [_cache setValue:UIGraphicsGetImageFromCurrentImageContext() forKey:_photoModel.ID];
                 UIGraphicsEndImageContext();
             }
             else
             {
-                self.photoModel.smallImage = image;
+                [_cache setValue: image forKey: _photoModel.ID];
             }
             
             if (self.completionHandler != nil)

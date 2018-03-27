@@ -11,6 +11,7 @@
 
 @interface APIClient : NSObject
 
+@property (nonatomic, strong) NSCache *cache;
 @property (nonatomic, strong) PhotoModel *photoModel;
 @property (nonatomic, copy) void (^completionHandler)(void);
 
