@@ -11,13 +11,17 @@
 #import "Constants.h"
 #import "PhotoCollectionViewCell.h"
 
+#define BlockWeakObject(o) __typeof(o) __weak
+#define BlockWeakSelf BlockWeakObject(self)
+
 @interface PhotosViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate>
 
-//@property (nonatomic, strong) APIClient *apiClient;
+@property (nonatomic, strong) APIClient *apiClient;
 @property (nonatomic, strong) NSArray *photosArray;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableDictionary *imageDownloadInProgress;
-@property (nonatomic, strong) NSCache *imagesDownloaded;
+//@property (nonatomic, strong) NSCache *imagesDownloaded;
+@property (nonatomic, strong) UIImage *sampleImage;
 
 @end
 
@@ -27,12 +31,12 @@
     [super viewDidLoad];
     
     [self createViews];
-    
+    self.sampleImage = [[UIImage alloc] initWithContentsOfFile:@"sample.jpg"];
     self.photosArray = [NSArray array];
     self.imageDownloadInProgress = [NSMutableDictionary dictionary];
     
-    APIClient *apiClient = [[APIClient alloc] init];
-    [apiClient fetchDataWithCompletionBlock:^(BOOL succeeded, NSArray *array) {
+    self.apiClient = [[APIClient alloc] init];
+    [_apiClient fetchDataWithCompletionBlock:^(BOOL succeeded, NSArray *array) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if (succeeded)
@@ -61,7 +65,7 @@
 
 - (void)clearCache
 {
-    [self.imagesDownloaded removeAllObjects];
+    [self.apiClient.cache removeAllObjects];
     NSArray *allDownloads = [self.imageDownloadInProgress allValues];
     [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
     [self.imageDownloadInProgress removeAllObjects];
@@ -82,20 +86,22 @@
 
 - (void)startIconDownload:(PhotoModel *)photoModel forIndexPath:(NSIndexPath *)indexPath
 {
-    APIClient *apiClient = (self.imageDownloadInProgress)[indexPath];
-    if (apiClient == nil)
+//    APIClient *apiClient = (self.imageDownloadInProgress)[indexPath];
+    if (_apiClient == nil)
     {
-        apiClient = [[APIClient alloc] init];
-        apiClient.photoModel = photoModel;
-        [apiClient setCompletionHandler:^{
+        _apiClient = [[APIClient alloc] init];
+        _apiClient.photoModel = photoModel;
+        BlockWeakSelf weakSelf = self;
+        [_apiClient setCompletionHandler:^{
             
-            PhotoCollectionViewCell *cell = (PhotoCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-//            [self.imagesDownloaded setObject:(nonnull id) forKey:<#(nonnull id)#>
-            cell.image = [_imagesDownloaded objectForKey:photoModel.ID];
-            [self.imageDownloadInProgress removeObjectForKey:indexPath];
+            PhotoCollectionViewCell *cell = (PhotoCollectionViewCell *)[weakSelf.collectionView cellForItemAtIndexPath:indexPath];
+            cell.image = weakSelf.sampleImage;
+            [cell setNeedsLayout];
+//            cell.image = [weakSelf.apiClient.cache objectForKey:photoModel.ID];
+            [weakSelf.apiClient.cache removeObjectForKey:indexPath];
         }];
-        (self.imageDownloadInProgress)[indexPath] = apiClient;
-        [apiClient startDownload];
+        (self.imageDownloadInProgress)[indexPath] = _apiClient;
+        [_apiClient startDownload];
     }
 }
 
@@ -107,7 +113,7 @@
         for (NSIndexPath *indexPath in visibleCells)
         {
             PhotoModel *photoModel = (self.photosArray)[indexPath.row];
-            if (![_imagesDownloaded objectForKey:photoModel.ID])
+            if (![self.apiClient.cache objectForKey:photoModel.ID])
             {
                 [self startIconDownload:photoModel forIndexPath:indexPath];
             }
@@ -119,24 +125,43 @@
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
-    PhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFY forIndexPath:indexPath];
-    
-    if (self.photosArray.count > 0)
+    PhotoCollectionViewCell *cell = (PhotoCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFY forIndexPath:indexPath];
+    PhotoModel *pModel = (PhotoModel *)_photosArray[indexPath.row];
+    if (!cell)
     {
-        PhotoModel *pModel = (self.photosArray)[indexPath.row];
-        if (![_imagesDownloaded valueForKey:pModel.ID])
-        {
-            if (self.collectionView.dragging == NO && self.collectionView.decelerating == NO)
-            {
-                [self startIconDownload:pModel forIndexPath:indexPath];
-            }
-            cell.image = [UIImage imageNamed:@"Placeholder.png"];
-        }
-        else
-        {
-            cell.image = [_imagesDownloaded valueForKey:pModel.ID];
-        }
+        cell = [[PhotoCollectionViewCell alloc] init];
     }
+    
+    [cell.activityView startAnimating];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        BOOL shouldDownload = YES;
+        UIImage *pImage = [_apiClient.cache objectForKey:pModel.ID];
+        if (pImage != nil)
+        {
+            shouldDownload = NO;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [cell.activityView stopAnimating];
+                cell.activityView.hidden = YES;
+                [cell.imageView setImage:pImage];
+            });
+        }
+        if (shouldDownload)
+        {
+            [_apiClient fetchImageForPhotoModel:pModel completionBlock:^(BOOL succeeded, UIImage *image) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (succeeded)
+                    {
+                        [cell.imageView setImage:image];
+                    }
+                    else
+                    {
+                        NSLog(@"something went wrong");
+                    }
+                });
+            }];
+        }
+    });
 
     return cell;
 }
@@ -150,6 +175,10 @@
     {
         return 0;
     }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
 }
 
 #pragma MARK: - UIScrollViewDelegate methods
