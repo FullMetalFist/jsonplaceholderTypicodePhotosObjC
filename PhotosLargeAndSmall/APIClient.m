@@ -62,9 +62,27 @@
     [task resume];
 }
 
-- (void)fetchImageForPhotoModel:(PhotoModel *)photoModel completionBlock:(void (^)(BOOL, UIImage *))completionBlock
+- (void)fetchSmallImageForPhotoModel:(PhotoModel *)photoModel completionBlock:(void (^)(BOOL, UIImage *))completionBlock
 {
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:photoModel.thumbnailURL]];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (!error)
+        {
+            UIImage *image = [[UIImage alloc] initWithData:data];
+            completionBlock(YES, image);
+        }
+        else
+        {
+            completionBlock(NO, nil);
+        }
+    }];
+    [task resume];
+}
+
+- (void)fetchLargeImageForPhotoModel:(PhotoModel *)photoModel completionBlock:(void (^)(BOOL, UIImage *))completionBlock
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:photoModel.url]];
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (!error)
@@ -100,7 +118,6 @@
                 UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
                 CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
                 [image drawInRect:imageRect];
-//                []
                 [_cache setValue:UIGraphicsGetImageFromCurrentImageContext() forKey:_photoModel.ID];
                 UIGraphicsEndImageContext();
             }

@@ -16,7 +16,8 @@
 @property (nonatomic, copy) void (^completionHandler)(void);
 
 - (void)fetchDataWithCompletionBlock:(void (^)(BOOL succeeded, NSArray *array))completionBlock;
-- (void)fetchImageForPhotoModel:(PhotoModel *)photoModel completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock;
+- (void)fetchSmallImageForPhotoModel:(PhotoModel *)photoModel completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock;
+- (void)fetchLargeImageForPhotoModel:(PhotoModel *)photoModel completionBlock:(void (^)(BOOL, UIImage *))completionBlock;
 
 - (void)startDownload;
 - (void)cancelDownload;
