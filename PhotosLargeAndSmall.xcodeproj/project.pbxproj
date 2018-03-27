@@ -16,6 +16,7 @@
 		7C24D861206938EF00A70DEA /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C24D860206938EF00A70DEA /* Constants.m */; };
 		7C24D86520693B5600A70DEA /* PhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C24D86420693B5600A70DEA /* PhotoModel.m */; };
 		7C24D8692069403E00A70DEA /* PhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C24D8682069403E00A70DEA /* PhotoCollectionViewCell.m */; };
+		7C24D8CE206A8F1E00A70DEA /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C24D8CD206A8F1E00A70DEA /* DetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,8 @@
 		7C24D86420693B5600A70DEA /* PhotoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoModel.m; sourceTree = "<group>"; };
 		7C24D8672069403E00A70DEA /* PhotoCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoCollectionViewCell.h; sourceTree = "<group>"; };
 		7C24D8682069403E00A70DEA /* PhotoCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoCollectionViewCell.m; sourceTree = "<group>"; };
+		7C24D8CC206A8F1E00A70DEA /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DetailViewController.h; path = PhotosLargeAndSmall/Controller/DetailViewController.h; sourceTree = SOURCE_ROOT; };
+		7C24D8CD206A8F1E00A70DEA /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DetailViewController.m; path = PhotosLargeAndSmall/Controller/DetailViewController.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +93,8 @@
 			children = (
 				7C24D85C2069387300A70DEA /* PhotosViewController.h */,
 				7C24D85D2069387400A70DEA /* PhotosViewController.m */,
+				7C24D8CC206A8F1E00A70DEA /* DetailViewController.h */,
+				7C24D8CD206A8F1E00A70DEA /* DetailViewController.m */,
 			);
 			name = Controller;
 			path = "New Group";
@@ -186,6 +191,7 @@
 				7C24D8692069403E00A70DEA /* PhotoCollectionViewCell.m in Sources */,
 				7C24D861206938EF00A70DEA /* Constants.m in Sources */,
 				7C24D84E2069369200A70DEA /* main.m in Sources */,
+				7C24D8CE206A8F1E00A70DEA /* DetailViewController.m in Sources */,
 				7C24D86520693B5600A70DEA /* PhotoModel.m in Sources */,
 				7C24D8402069369200A70DEA /* AppDelegate.m in Sources */,
 				7C24D85E2069387400A70DEA /* PhotosViewController.m in Sources */,
